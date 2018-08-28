@@ -4,31 +4,35 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { NotifyService } from './notify.service';
 
 import { Observable } from 'rxjs/Observable';
+import {BehaviorSubject, Subject} from "rxjs/Rx";
 
 interface User {
   uid: string;
   email?: string | null;
   photoURL?: string;
   displayName?: string;
+  admin?: boolean;
 }
 
 @Injectable()
-export class AuthService {
+export class AuthenticationService {
 
   user: Observable<User | null>;
+  admin = new BehaviorSubject(false);
+  isAdmin$ = this.admin.asObservable();
 
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
-              private router: Router,
-              private notify: NotifyService) {
+              private router: Router, ) {
 
     this.user = this.afAuth.authState
       .switchMap((user) => {
         if (user) {
+          this.setAdmin();
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+
         } else {
           return Observable.of(null);
         }
@@ -62,6 +66,8 @@ export class AuthService {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
         //this.notify.update('Welcome to Firestarter!!!', 'success');
+        this.setAdmin();
+        this.router.navigate(['/']);
         return this.updateUserData(credential.user);
       })
       .catch((error) =>
@@ -73,8 +79,8 @@ export class AuthService {
   anonymousLogin() {
     return this.afAuth.auth.signInAnonymously()
       .then((user) => {
-        this.notify.update('Welcome to Firestarter!!!', 'success');
-        return this.updateUserData(user); // if using firestore
+        //this.notify.update('Welcome to Firestarter!!!', 'success');
+        return this.updateUserData(user.user); // if using firestore
       })
       .catch((error) => {
         console.error(error.code);
@@ -88,8 +94,8 @@ export class AuthService {
   emailSignUp(email: string, password: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        this.notify.update('Welcome to Firestarter!!!', 'success');
-        return this.updateUserData(user); // if using firestore
+        //this.notify.update('Welcome to Firestarter!!!', 'success');
+        return this.updateUserData(user.user); // if using firestore
       })
       .catch((error) => this.handleError(error) );
   }
@@ -97,8 +103,8 @@ export class AuthService {
   emailLogin(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((user) => {
-        this.notify.update('Welcome to Firestarter!!!', 'success');
-        return this.updateUserData(user); // if using firestore
+        //this.notify.update('Welcome to Firestarter!!!', 'success');
+        return this.updateUserData(user.user); // if using firestore
       })
       .catch((error) => this.handleError(error) );
   }
@@ -108,12 +114,13 @@ export class AuthService {
     const fbAuth = firebase.auth();
 
     return fbAuth.sendPasswordResetEmail(email)
-      .then(() => this.notify.update('Password update email sent', 'info'))
+      .then(() => console.log('Reset'))//this.notify.update('Password update email sent', 'info'))
       .catch((error) => this.handleError(error));
   }
 
-  signOut() {
+  logout() {
     this.afAuth.auth.signOut().then(() => {
+      this.setAdmin();
       this.router.navigate(['/']);
     });
   }
@@ -121,6 +128,7 @@ export class AuthService {
   // If error, console log and notify user
   private handleError(error: any) {
     console.error('Error ', error);
+    /*
     if (error.code === 'auth/account-exists-with-different-credential') {
       console.log('Duplicate user');
       const existingEmail = error.email;
@@ -136,12 +144,12 @@ export class AuthService {
               return firebase.auth().signInWithEmailAndPassword(existingEmail, password);
             }
           } else if (providers.indexOf(firebase.auth.GoogleAuthProvider.PROVIDER_ID) !== -1) {
-            console.log("Linked Google");
+            console.log('Linked Google');
             const googProvider = new firebase.auth.GoogleAuthProvider();
             // Sign in user to Google with same account.
             googProvider.setCustomParameters({'login_hint': existingEmail});
             return firebase.auth().signInWithRedirect(googProvider).then(function(result) {
-              return result.user;
+              return result;
             });
           } else {
 
@@ -152,9 +160,11 @@ export class AuthService {
           // Link Facebook OAuth credential to existing account.
           return user.linkWithCredential(pendingCred);
         });
-    }
 
-    this.notify.update(error.message, 'error');
+        */
+    //}
+
+    //this.notify.update(error.message, 'error');
   }
 
   // Sets user data to firestore after succesful login
@@ -170,6 +180,31 @@ export class AuthService {
       photoURL: user.photoURL || 'https://goo.gl/Fz9nrQ',
     };
     return userRef.set(data);
+  }
+
+  isAdmin() {
+
+
+
+
+  }
+  setAdmin(): void {
+    firebase.auth().currentUser.getIdTokenResult()
+      .then((idTokenResult) => {
+        // Confirm the user is an Admin.
+        if (!!idTokenResult.claims.admin) {
+          // Show admin UI.
+          console.log("Setting Admin to True");
+          this.admin.next(true);
+        } else {
+          // Show regular user UI.
+          console.log("Setting Admin to False");
+          this.admin.next(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
 }

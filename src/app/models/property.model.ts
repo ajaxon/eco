@@ -24,6 +24,7 @@ export class Property {
 export class Reward {
   id?: string;
   description: string;
+  propertyId: string;
   maxPledges: number;
   pledgeAmountCents: number;
   pledgeCount: number;

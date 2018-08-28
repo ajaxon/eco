@@ -10,20 +10,20 @@ import {
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
-import {Property, Reward} from '../models/property.model';
 import * as firebase from 'firebase/app';
 import {StorageService} from '../../uploader/storage.service';
+import { Property, Reward } from '../../models/property.model';
 
 @Injectable()
 export class PropertyService {
 
-  propertiesCollectionRef: AngularFirestoreCollection<any>;
+  propertiesCollectionRef: AngularFirestoreCollection<Property>;
 
   properties$: Observable<any[]>;
 
 
   constructor(private fireStore: AngularFirestore, private storageService: StorageService) {
-    this.propertiesCollectionRef = this.fireStore.collection<any>('properties');
+    this.propertiesCollectionRef = this.getProperties();
     this.properties$ = this.propertiesCollectionRef.snapshotChanges().map(actions => {
       return actions.map(action => {
           const data = action.payload.doc.data() as Property;
@@ -35,8 +35,7 @@ export class PropertyService {
   }
 
   getProperties() {
-
-     return this.fireStore.collection('properties', ref => ref.where('published', '==', true));
+     return this.fireStore.collection<Property>('properties', ref => ref.where('published', '==', true));
   }
 
   addProperty(property: Property, files?: any) {
@@ -70,6 +69,9 @@ export class PropertyService {
     this.propertiesCollectionRef.doc(property.id).collection('rewards').add(reward);
   }
 
+  deleteReward(reward: Reward){
+    this.propertiesCollectionRef.doc(reward.propertyId).collection('rewards').doc(reward.id).delete();
+  }
   get timestamp(){
     return firebase.firestore.FieldValue.serverTimestamp();
   }

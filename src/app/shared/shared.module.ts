@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatButtonModule} from "@angular/material/button";
-import {
-  MatCardModule, MatCheckboxModule, MatChipsModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule,
-  MatProgressSpinnerModule,
-  MatSelectModule,
-  MatSidenavModule, MatSlideToggleModule, MatTabsModule, MatToolbarModule,
-  MatTooltipModule
-} from "@angular/material";
+
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {PledgeCardComponent} from "../pledges/pledge-card/pledge-card.component";
+import { MatButtonModule, MatCardModule, MatGridListModule, MatProgressBarModule, MatChipsModule } from '../../../node_modules/@angular/material';
+import { PropertiesModule } from '../properties/properties.module';
+import { RouterModule } from '../../../node_modules/@angular/router';
+
 
 @NgModule({
   imports: [
@@ -16,45 +14,29 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
-    MatSlideToggleModule,
     MatButtonModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatChipsModule,
     MatCardModule,
-    MatSidenavModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatMenuModule,
-    MatIconModule,
-    MatTooltipModule
+    MatGridListModule,
+    MatProgressBarModule,
+    RouterModule,
+    MatChipsModule
+
+
   ],
-  declarations: [],
+  declarations: [PledgeCardComponent],
 
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
-    MatSlideToggleModule,
+    PledgeCardComponent,
     MatButtonModule,
-    MatMenuModule,
-    MatTabsModule,
-    MatChipsModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatCheckboxModule,
     MatCardModule,
-    MatSidenavModule,
-    MatListModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatTooltipModule,
+    MatGridListModule,
+    MatProgressBarModule,
+    RouterModule,
+    MatChipsModule
+    
 
 
   ]

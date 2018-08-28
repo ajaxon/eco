@@ -3,18 +3,18 @@
 
 import {Component} from '@angular/core';
 import {AuthenticationService} from "../auth/services/authentication.service";
-import {PledgeService} from "../services/pledge.service";
+import {PledgeService} from "../core/services/pledge.service";
 
 @Component({
   selector: 'app-properties',
   template: `
-
-  
-    <button *ngIf="(authService.user | async)" mat-raised-button
+    <div class="container">
+    <router-outlet></router-outlet>
+    <button *ngIf="(authService.isAdmin$ | async)"
             color="accent"
             routerLink="add">Add Property</button>
-    
-    <router-outlet></router-outlet>
+
+    </div>
   `,
   styles: []
 })

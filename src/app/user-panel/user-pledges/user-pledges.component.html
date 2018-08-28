@@ -1,0 +1,5 @@
+<h1>My Pledges</h1>
+<div *ngFor="let pledge of pledges$ | async">
+<app-pledge-card [pledge]="pledge"></app-pledge-card>
+
+</div>

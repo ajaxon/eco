@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-header>{{property.title}} - {{property.parcelSize}} Acres</mat-card-header>
+  <mat-card-title>
+    <a routerLink="properties/{{property.id}}" >{{ property.title }}</a>
+  </mat-card-title>
+
+
+  <mat-card-content>
+    {{property.description}}
+  </mat-card-content>
+ 
+    <app-property-detail *ngIf="this.showDetails" [property]="property"></app-property-detail>
+
+
+
+  <mat-chip-list *ngFor="let item of property.terrains | keyvalue">
+    <mat-chip *ngIf="item.value == true">{{item.key}}</mat-chip>
+  
+  </mat-chip-list>
+
+  <mat-card-actions>
+
+      <button>LIKE</button>
+      <button mat-flat-button (click)="show()">PROPERTY DETAILS</button>
+      <button mat-flat-button>SHARE</button>
+      <button mat-flat-button (click)="pledge()">PLEDGE</button>
+      <button *ngIf="(isAdmin$| async)" (click)="deleteProperty(property)">DELETE</button>
+  </mat-card-actions>
+
+
+<mat-card-footer></mat-card-footer>
+  
+  </mat-card>

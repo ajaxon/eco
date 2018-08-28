@@ -1,30 +1,26 @@
-import {Component, Input} from "@angular/core";
-import {Property, Reward} from "../models/property.model";
-import {PropertyService} from "../services/properties.service";
+import {Component, Input} from '@angular/core';
+import {PropertyService} from '../services/properties.service';
+import { Reward } from '../../models/property.model';
 
 @Component({
   selector: 'app-reward',
   template: `
-    <mat-card>
-    {{reward.id}}
-    {{reward.pledgeCount}}/{{reward.maxPledges}}
-    </mat-card>
+    {{ reward.id }}
+    {{ reward.pledgeCount }}/{{ reward.maxPledges }}
   `,
   styles: []
 })
 export class RewardComponent {
-
-
   @Input() reward: Reward;
 
-
-  constructor(){
+  constructor(private _propertyService: PropertyService) {
   }
-  links = [
-    {link: 'add', label: 'Add Property'},
-    {link: 'test', label: 'Test'}
-  ]
 
+
+  delete() {
+
+    this._propertyService.deleteReward(this.reward);
+  }
 
 
 }

@@ -15,7 +15,7 @@ export class StorageService {
   uploads: FirebaseListObservable<Upload[]>;
 
 
-  pushUpload(upload: Upload) {
+  pushUpload(upload: Upload, basePath?: String) {
     const storageRef = firebase.storage().ref();
     const uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,

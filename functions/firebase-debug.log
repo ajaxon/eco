@@ -1,0 +1,61 @@
+[debug] [2018-05-01T12:28:05.137Z] ----------------------------------------------------------------------
+[debug] [2018-05-01T12:28:05.140Z] Command:       /usr/local/Cellar/node/8.9.1/bin/node /usr/local/bin/firebase deploy --only functions
+[debug] [2018-05-01T12:28:05.141Z] CLI Version:   3.17.4
+[debug] [2018-05-01T12:28:05.141Z] Platform:      darwin
+[debug] [2018-05-01T12:28:05.141Z] Node Version:  v8.9.1
+[debug] [2018-05-01T12:28:05.141Z] Time:          Tue May 01 2018 08:28:05 GMT-0400 (EDT)
+[debug] [2018-05-01T12:28:05.142Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-01T12:28:05.162Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-01T12:28:05.162Z] > authorizing via signed-in user
+[debug] [2018-05-01T12:28:05.165Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/land-locker  
+  
+ Tue May 01 2018 08:28:05 GMT-0400 (EDT)
+[debug] [2018-05-01T12:28:05.690Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T12:28:05.691Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/land-locker/tokens  
+  
+ Tue May 01 2018 08:28:05 GMT-0400 (EDT)
+[debug] [2018-05-01T12:28:06.270Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'land-locker'...
+[info] 
+[info] i  deploying functions
+[debug] [2018-05-01T12:28:06.809Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase experimental:functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
+    "firebase-admin": "~5.8.1",
+    "firebase-functions": "^0.8.1"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2018-05-01T12:28:06.811Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/land-locker?view=CONSUMER_VIEW  
+  
+ Tue May 01 2018 08:28:06 GMT-0400 (EDT)
+[debug] [2018-05-01T12:28:06.811Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/land-locker?view=CONSUMER_VIEW  
+  
+ Tue May 01 2018 08:28:06 GMT-0400 (EDT)
+[debug] [2018-05-01T12:28:07.523Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T12:28:07.606Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2018-05-01T12:28:07.608Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/land-locker  
+  
+ Tue May 01 2018 08:28:07 GMT-0400 (EDT)
+[debug] [2018-05-01T12:28:07.609Z] >>> HTTP REQUEST GET https://apikeys.googleapis.com/v1/projects/land-locker/apiKeys  
+  
+ Tue May 01 2018 08:28:07 GMT-0400 (EDT)
+[debug] [2018-05-01T12:28:08.025Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T12:28:08.041Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2018-05-01T12:28:08.045Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/land-locker/configs  
+  
+ Tue May 01 2018 08:28:08 GMT-0400 (EDT)

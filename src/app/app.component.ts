@@ -5,11 +5,16 @@ import {routerTransition} from "./core/animations/router.transition";
 @Component({
   selector: 'app-root',
   template: `
-    <app-header></app-header>
-    <router-outlet>
-      <mat-spinner style="margin:0 auto" *ngIf="loading"></mat-spinner>
 
-    </router-outlet>
+<main-nav></main-nav>
+    <main>
+      <router-outlet>
+        <div style="margin:0 auto" *ngIf="loading"></div>
+      </router-outlet>
+
+    </main>
+   
+    
   `,
   styles: [],
   animations: [routerTransition]

@@ -1,0 +1,90 @@
+
+
+service cloud.firestore {
+
+
+function existingData() {
+      return resource.data
+    }
+    
+function incomingData() {
+      return request.resource.data
+}
+    
+// Check if the request is authenticated
+function isAuthenticated() {
+  return request.auth != null;
+}
+
+// Check if a particular user made a request
+function isUserAuthenticated(userId) {
+  return request.auth.uid == userId;
+}
+
+function isOwner(){
+	return request.auth.uid == resource.data.user_id;
+}
+
+function isWritingUser(){
+  return request.auth.uid == request.resource.data.user_id;
+}
+
+function isAdmin(){
+	return request.auth.token.admin == true;
+}
+
+function isValidProperty(){
+	return incomingData().size() > 5 &&
+                   incomingData().title is string &&
+                   incomingData().city is string &&
+                   incomingData().parcelSize is int &&
+                   incomingData().description is string &&
+                   incomingData().priceCents is int &&
+                   incomingData().published is bool &&
+                   incomingData().priceCents > 100;
+}
+
+function isValidPledge(){
+ return incomingData().keys().hasAll(["amountCents", "reward", "property_id", "user_id"])
+        								&& incomingData().amountCents > 100;
+}
+
+  match /databases/{database}/documents {
+    
+    match /users/{userId} {
+       allow read;
+       allow create: if isAuthenticated();
+       allow update: if request.auth.uid == userId;
+    }
+      match /pledges/{pledgeId} {
+      	allow read;
+        allow update: if isAuthenticated() && isOwner();
+        allow write: if isAuthenticated() && isValidPledge();
+        allow delete: if isOwner();
+        
+      }
+      
+      match /properties {
+                   
+                             
+      match /{propertyId} {
+      	allow read: if resource.data.published || isAdmin();
+        allow write: if isAuthenticated() && isAdmin() &&
+        					 isValidProperty();
+				allow delete: if isAuthenticated() && isAdmin();     
+      }
+      
+      
+      
+      match /{propertyId}/rewards/{rewardId} {
+      		allow read;
+          allow write: if isAuthenticated() && isAdmin();
+          allow delete: if isAuthenticated() && isAdmin();
+      }
+      
+      }
+    
+    
+    
+  }
+}

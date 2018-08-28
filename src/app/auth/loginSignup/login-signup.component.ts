@@ -8,7 +8,7 @@ import {AuthenticationService} from '../services/authentication.service';
 @Component({
   selector: 'app-login-signup',
   templateUrl: './login-signup.component.html',
-  styles: []
+  styleUrls: ['./login-signup.css']
 })
 export class LoginSignupComponent {
 
@@ -34,11 +34,11 @@ export class LoginSignupComponent {
   }
 
   login() {
-    this.authService.login(this.email.value, this.password.value);
+    this.authService.emailLogin(this.email.value, this.password.value);
   }
 
   signup() {
-    this.authService.signup(this.email.value, this.password.value);
+    this.authService.emailSignUp(this.email.value, this.password.value);
   }
 
   createForm(){

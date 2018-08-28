@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-title>{{pledge.amountCents | currency}} - {{pledge.property.title}}</mat-card-title>
+  <mat-card-content>
+
+    <ul class="list-unstyled mt-3 mb-4">
+    
+      {{pledge.property_id}}
+      {{pledge.reward.id}}
+      <li>Pledged on: new Date({{pledge.createdOn}})</li>
+    </ul>
+    <button mat-flat-button (click)="cancelPledge(pledge)">Cancel</button>
+</mat-card-content>
+</mat-card>

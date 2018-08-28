@@ -11,50 +11,62 @@ import {
 } from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import * as firebase from 'firebase/app';
-import {Pledge} from '../properties/models/pledge.model';
-import {Property, Reward} from "../properties/models/property.model";
+import { Pledge } from '../../models/pledge.model';
+import { Reward, Property } from '../../models/property.model';
+
 
 @Injectable()
 export class PledgeService {
 
-  pledgesCollectionRef: AngularFirestoreCollection<any>;
+  pledgesCollectionRef: AngularFirestoreCollection<Pledge>;
 
-  properties$: Observable<any[]>;
+  pledges: Observable<any[]>;
 
 
   constructor(private fireStore: AngularFirestore) {
-    this.pledgesCollectionRef = this.fireStore.collection<any>('pledges');
+    this.pledgesCollectionRef = this.fireStore.collection<Pledge>('pledges');
 
 
   }
 
-  getUserPledges(user: User) {
+  /*
+  Get all pledges made by user currently logged in
+   */
+  getUserPledges() {
 
+    const user = firebase.auth().currentUser;
+    
     const userRef = this.fireStore.collection('users').doc(user.uid).ref;
-
-    console.log("USER REF ", userRef);
-    return this.fireStore.collection('pledges', ref => ref.where('user', '==', userRef)).valueChanges();
+    console.log("User pledges for : " , user.uid);
+    return this.fireStore.collection<Pledge>('pledges', ref => ref.where('user', '==', userRef)).snapshotChanges().map(actions => {
+      return actions.map(action => {
+        const data = action.payload.doc.data() as Pledge;
+        const id = action.payload.doc.id;
+        return { id, ...data};
+      });
+    })
   }
 
+  /*
+  Get all pledges for a given reward
+   */
   getRewardPledges(reward: Reward) {
 
     return this.fireStore.collection('pledges', ref => ref.where('reward', '==', true));
   }
 
-  addPledge(reward: Reward, pledge: Pledge) {
+  addPledge(pledge: Pledge) {
+    const user = firebase.auth().currentUser;
 
     const ref = this.fireStore.collection('pledges');
-    pledge.createdAt = this.timestamp;
-  }
-
-  updateProperty(property: Property) {
-    this.fireStore.collection('properties').doc(property.id)
-      .update(property)
-      .then(() => console.log('Updated'));
+    pledge.createdOn = this.timestamp;
+    
+    ref.add(pledge);
   }
 
 
-  deleteProperty(pledge: Pledge) {
+
+  deletePledge(pledge: Pledge) {
     this.pledgesCollectionRef.doc(pledge.id).delete();
   }
 

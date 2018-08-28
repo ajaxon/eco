@@ -1,45 +1,69 @@
-<div>
+<div class=" login-container">
 
 
 
-  <mat-tab-group>
-    <mat-tab label="Login">
+
+      <form  [formGroup]='loginForm' (ngSubmit)="login()" class="example-container" novalidate>
+          <input  formControlName="email" placeholder="Email" required dividerColor="accent">
 
 
-      <form [formGroup]='loginForm'  (ngSubmit)="login()" class="example-container" novalidate>
-        <mat-form-field class="example-full-width">
-          <input matInput formControlName="email"  placeholder="Email" required dividerColor="accent">
-          <mat-error *ngIf="email.invalid">Invalid Email Address</mat-error>
 
-        </mat-form-field>
 
-        <mat-form-field>
-          <input type="password" matInput formControlName="password" placeholder="Password">
-          <mat-error *ngIf="password.invalid">Invalid Password</mat-error>
-          <mat-hint align="end">Must be 8 or more characters</mat-hint>
-        </mat-form-field>
+          <input type="password"  formControlName="password" placeholder="Password">
 
-        <button mat-raised-button [disabled]="loginForm.pristine" type="submit">Login</button>
 
-        <button mat-raised-button [disabled]="loginForm.pristine" (click)="signup()">Register</button>
+
+        <button [disabled]="loginForm.pristine" type="submit">Login</button>
+
+        <button [disabled]="loginForm.pristine" (click)="signup()">Register</button>
 
 
       </form>
 
-    </mat-tab>
-    <mat-tab label="Register">
+
+    <div label="Register">
 
 
+      <h3>REgister page</h3>
 
 
-    </mat-tab>
-  </mat-tab-group>
-
-
-
-
-
-
-  <button (click)="googleLogin()">Google Login</button>
-  <button (click)="facebookLogin()">Facebook Login</button>
 </div>
+
+
+  <form class="form-signin">
+    <div class="text-center mb-4">
+      <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Floating labels</h1>
+      <p>Build form controls with floating labels via the <code>:placeholder-shown</code> pseudo-element. <a href="https://caniuse.com/#feat=css-placeholder-shown">Works in latest Chrome, Safari, and Firefox.</a></p>
+    </div>
+
+    <div class="form-label-group">
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+      <label for="inputEmail">Email address</label>
+    </div>
+
+    <div class="form-label-group">
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+      <label for="inputPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
+  </form>
+
+
+
+  <button (click)="facebookLogin()"  class="loginBtn loginBtn--facebook">
+    Login with Facebook
+  </button>
+
+  <button (click)="googleLogin()" class="loginBtn loginBtn--google">
+    Login with Google
+  </button>
+
+

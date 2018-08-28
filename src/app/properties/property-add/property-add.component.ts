@@ -1,75 +1,56 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PropertyService} from '../services/properties.service';
-import {Property} from '../models/property.model';
 
 @Component({
   selector: 'app-property-add',
   template: `
-    <mat-card class="card">
 
 
 
+    <div class="container">
+
+      <form [formGroup]='addPropertyForm' (ngSubmit)="add()" class="example-container" novalidate>
+        <input formControlName="title" placeholder="Title" required dividerColor="accent">
 
 
-    <form [formGroup]='addPropertyForm'  (ngSubmit)="add()" class="example-container" novalidate>
-      <mat-form-field class="example-full-width">
-        <input matInput formControlName="title"  placeholder="Title" required dividerColor="accent">
-        <mat-error *ngIf="title.invalid">Invalid Title</mat-error>
+        <input type="text" formControlName="description" placeholder="Description">
 
-      </mat-form-field>
+        <input type="text" formControlName="city" placeholder="City">
 
-      <mat-form-field>
-        <input type="text" matInput formControlName="description" placeholder="Description">
-        <mat-error *ngIf="description.invalid">Invalid Description</mat-error>
-        <mat-hint align="end">Must be 8 or more characters</mat-hint>
-      </mat-form-field>
-      <mat-form-field>
-        <input type="number" matInput formControlName="parcelSize" placeholder="Parcel Size">
-        <mat-error *ngIf="description.invalid">Invalid Size</mat-error>
-        <mat-hint align="end">Must be numeric</mat-hint>
-      </mat-form-field>
+        <input type="number" formControlName="parcelSize" placeholder="Parcel Size">
+        <input type="number" formControlName="priceCents" placeholder="Price in Cents">
 
-      <mat-form-field>
-        <input type="number" matInput formControlName="priceCents" placeholder="Price in Cents">
-        <mat-error *ngIf="description.invalid">Invalid Price</mat-error>
-        <mat-hint align="end"></mat-hint>
-      </mat-form-field>
+        
+        <input type="checkbox" formControlName="published" placeholder="Published">
+        <button [disabled]="addPropertyForm.pristine" type="submit">Add</button>
 
-      <mat-checkbox
-        class="example-margin">
-        I'm a checkbox
-      </mat-checkbox>
-
-      <mat-slide-toggle formControlName="published"
-        class="example-margin"
-        [checked]="published">
-
-        Published
-      </mat-slide-toggle>
-
-      <button mat-raised-button [disabled]="addPropertyForm.pristine" type="submit">Add</button>
-
-      <button mat-raised-button [disabled]="addPropertyForm.pristine" (click)="reset()">Reset</button>
+        <button [disabled]="addPropertyForm.pristine" (click)="reset()">Reset</button>
 
 
-    </form>
+      </form>
+    </div>
 
-
-    </mat-card>
   `,
   styleUrls: ['property-add.component.css'],
 })
 export class PropertyAddComponent implements OnInit {
 
-  terrains = ['Mountains', 'Rivers', 'Streams'];
+
+  terrainsObject: [
+    { name: 'Mountains', selected: false },
+    { name: 'Rivers', selected: false },
+    { name: 'Streams', selected: false }
+
+    ];
+
+
   published = false;
-
-
 
   addPropertyForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private propertyService: PropertyService) { }
+  constructor(private fb: FormBuilder, private propertyService: PropertyService) {
+  }
 
   ngOnInit() {
     this.createForm();
@@ -86,7 +67,8 @@ export class PropertyAddComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(8)]],
       parcelSize: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       priceCents: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      terrains: ['', [Validators.required]],
+      terrains: [this.buildTerrains(), [Validators.required]],
+      city: ['', [Validators.required]],
       published: ['', [Validators.required]]
     });
   }
@@ -96,12 +78,19 @@ export class PropertyAddComponent implements OnInit {
   }
 
 
-  get title(){
+  get title() {
     return this.addPropertyForm.get('title');
   }
 
-  get description(){
+  get description() {
     return this.addPropertyForm.get('description');
   }
 
+
+  buildTerrains() {
+    const arr = this.terrainsObject.map(terrain => {
+      return this.fb.control(terrain.selected);
+    });
+    return this.fb.array(arr);
+  }
 }
