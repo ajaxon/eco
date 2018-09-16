@@ -1,33 +1,134 @@
+<!--
 <mat-card>
   <mat-card-header>{{property.title}} - {{property.parcelSize}} Acres</mat-card-header>
   <mat-card-title>
-    <a routerLink="properties/{{property.id}}" >{{ property.title }}</a>
+    <a routerLink="properties/{{property.id}}">{{ property.title }}</a>
   </mat-card-title>
 
+  <mat-card-subtitle>Sub title</mat-card-subtitle>
+
+  <mat-card-subtitle>{{property.pledges?.count}} Pledges totaling {{property.pledges?.total / 100 | currency}}
+    <mat-progress-bar mode="determinate" [value]="pledgedPercentage"></mat-progress-bar>
+
+    Percent {{pledgedPercentage}}
+  </mat-card-subtitle>
+
+  <div *ngFor="let image of images">
+
+    <img mat-card-image [src]=image>
+  </div>
 
   <mat-card-content>
-    {{property.description}}
+    {{property.description}} Pledge Count: {{property.pledges?.count}}
   </mat-card-content>
- 
-    <app-property-detail *ngIf="this.showDetails" [property]="property"></app-property-detail>
+
+
 
 
 
   <mat-chip-list *ngFor="let item of property.terrains | keyvalue">
     <mat-chip *ngIf="item.value == true">{{item.key}}</mat-chip>
-  
+
   </mat-chip-list>
 
-  <mat-card-actions>
+  <mat-card-actions fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
 
-      <button>LIKE</button>
-      <button mat-flat-button (click)="show()">PROPERTY DETAILS</button>
-      <button mat-flat-button>SHARE</button>
-      <button mat-flat-button (click)="pledge()">PLEDGE</button>
-      <button *ngIf="(isAdmin$| async)" (click)="deleteProperty(property)">DELETE</button>
+    <button mat-icon-button color="warn">
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-flat-button (click)="show()">PROPERTY DETAILS</button>
+    <button mat-flat-button>SHARE</button>
+    <button mat-flat-button (click)="showPledgeForm()">PLEDGE</button>
+    <button mat-flat-button color="warn" *ngIf="(isAdmin$| async)" (click)="deleteProperty(property)">DELETE</button>
   </mat-card-actions>
 
+  <app-create-pledge *ngIf="pledgeForm" [property]=property></app-create-pledge>
 
-<mat-card-footer></mat-card-footer>
+  <mat-divider *ngIf="this.showDetails" [inset]=true></mat-divider>
+
+  <mat-card-footer>footer</mat-card-footer>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+
+      <mat-panel-description>
+        Property Details
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <app-property-detail [property]="property"></app-property-detail>
+  </mat-expansion-panel>
+
+</mat-card>
+
+-->
+
+<mat-card class="mat-card">
+  <!----><img _ngcontent-c23="" class="imgCard mat-card-image ng-star-inserted" mat-card-image="" src="https://firebasestorage.googleapis.com/v0/b/vaquinha-a55b7.appspot.com/o/user%2FgQxLUQQKd8YrWJDmX8datlWrvOn1%2F1530813137648.jpg?alt=media&amp;token=343422a1-30fb-4543-aba0-1eee925d636e"
+    alt="Parque Ludico y Cultural - CreSiendo">
+  <!---->
+  <div _ngcontent-c23="" fxlayoutalign="space-between" style="margin-bottom: 20px; place-content: stretch space-between; align-items: stretch; flex-direction: row; box-sizing: border-box; display: flex;">
+    <div _ngcontent-c23="">
+      <!---->
+      <mat-icon role="img" style="margin-top: 5px;" aria-hidden="true">person</mat-icon>
+      <!---->
+      <!----><span _ngcontent-c23="" class="card-user-name">Fidel Mendoza</span>
+    </div>
+    <div (click)="showMapBox()" >{{property.location?.city}},{{property.location?.state}}</div>
+  </div>
+  <div _ngcontent-c23="" class="card-tittle"><span _ngcontent-c23="" ngclass="mat-title" style="font-weight: bold;"
+      class="mat-title">{{property.title}}</span>
+
+
+      <!-- Terrains -->
+      <div fxLayout="row" fxLayoutGap="5" fxLayoutAlign="flex-start center">
+    <mat-chip-list *ngFor="let item of property.terrains | keyvalue">
+      <mat-chip color="accent" *ngIf="item.value == true">{{item.key}}</mat-chip>
+
+    </mat-chip-list>
+  </div>
+    <!--    -->
+    <br _ngcontent-c23=""><span _ngcontent-c23="" ngclass="mat-caption" class="mat-caption">Vaki Social</span>
+  </div>
+  <div _ngcontent-c23="" class="card-subtitle text-align"><span _ngcontent-c23="" ngclass="mat-body-1" class="mat-body-1">
+      {{property.description}}
+    </span></div>
+  <!---->
+  <!----><span _ngcontent-c23="" ngclass="mat-headline" class="mat-headline ng-star-inserted">USD
+    {{property.pledges?.total / 100 | currency}}</span>
+
+
+
+
+  <mat-progress-bar mode="determinate" [value]= pledgedPercentage></mat-progress-bar>
+
+  <span _ngcontent-c23="" ngclass="mat-caption" class="mat-caption"><strong _ngcontent-c23="">{{pledgedPercent |
+      percent}}
+    </strong>{{ (property.priceCents - property.pledges?.total) / 100 | currency}} Remaining</span>
+  <div _ngcontent-c23="" fxlayout="column" fxlayout.gt-sm="row" style="padding-top: 2%; flex-direction: row; box-sizing: border-box; display: flex;">
+    <div _ngcontent-c23="" class="datailed-info" fxflex="" fxflex.gt-xs="49%" style="flex: 1 1 100%; box-sizing: border-box; max-width: 49%;">
+      <div _ngcontent-c23="" style="padding-left: 5%;"><span _ngcontent-c23="" class="display-fresh mat-title" ngclass="mat-title"
+          style="font-weight: bold;">{{property.pledges?.count}}</span><span _ngcontent-c23="" ngclass="mat-subheading-1"
+          class="mat-subheading-1">Contributers</span></div>
+    </div>
+    <div _ngcontent-c23="" fxflex="" fxflex.gt-xs="2%" style="flex: 1 1 100%; box-sizing: border-box; max-width: 2%;"></div>
+    <div _ngcontent-c23="" class="datailed-info" fxflex.gt-xs="49%" style="flex: 1 1 100%; box-sizing: border-box; max-width: 49%;">
+      <div _ngcontent-c23="" style="padding-left: 5%;"><span _ngcontent-c23="" class="display-fresh mat-title" ngclass="mat-title"
+          style="font-weight: bold;">48</span><span _ngcontent-c23="" ngclass="mat-subheading-1" class="mat-subheading-1">Días
+          para aportar</span></div>
+    </div>
+  </div>
+  <!---->
+  <agm-map *ngIf="showMap" [latitude]="property.location?.geo?.latitude" [longitude]="property.location?.geo?.longitude">
+      <agm-marker [latitude]="property.location?.geo?.latitude" [longitude]="property.location?.geo?.longitude"></agm-marker>
+    </agm-map>
+
+  <mat-card-footer style="padding-top: 5%;">
+    <div fxlayoutalign="center center" style="place-content: center; align-items: center; flex-direction: row; box-sizing: border-box; display: flex;">
+      <!----><button (click)="showPledgeForm()" color="primary" mat-raised-button style="width: 100%;" class="mat-raised-button mat-primary ng-star-inserted"><span>PLEDGE</span>
+        <div class="mat-button-ripple mat-ripple" matripple=""></div>
+        <div class="mat-button-focus-overlay"></div>
+      </button></div>
   
-  </mat-card>
+  </mat-card-footer>
+</mat-card>

@@ -8,11 +8,17 @@ import {PropertyAddComponent} from "./property-add/property-add.component";
 import {RewardComponent} from "./reward/reward.component";
 import { PropertyCardComponent } from './property-card/property-card.component';
 import { CreatePledgeComponent } from '../pledges/create-pledge/create-pledge.component';
+import { FlexLayoutModule } from '../../../node_modules/@angular/flex-layout';
+import { AgmCoreModule } from '../../../node_modules/@agm/core';
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    FlexLayoutModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyA6u1glIKvjAX36cBpYMD2L0Ras5Im523E'
+    })
   ],
   declarations: [
     PropertyCardComponent,

@@ -6,22 +6,7 @@ import { Property } from '../../models/property.model';
 
 @Component({
   selector: 'app-property-detail',
-  template: `Description: {{ property.description }} - Parcel: {{ property.parcelSize }}
-Property Detail
-
-  {{ property.id }}
-  {{ property.pledgeCount }}
-  {{ property.location }}
-  {{ property.totalPledged }}
-  {{ property.priceCents | currency }}
-
-  <h3>Rewards</h3>
-  <button *ngIf="(isAdmin$ | async)" (click)="addReward(property)" mat-button>Add Reward</button>
-  <app-reward *ngFor="let reward of rewards | async" [reward]="reward">
-  </app-reward>
-<app-create-pledge></app-create-pledge>
-  
-  `,
+  templateUrl: 'property-detail.component.html',
   styles: []
 })
 export class PropertyDetailComponent implements OnInit {
@@ -32,7 +17,7 @@ export class PropertyDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.rewards = this.propertyService.getRewards(this.property);
+    //this.rewards = this.propertyService.getRewards(this.property);
   }
 
 
@@ -45,5 +30,8 @@ export class PropertyDetailComponent implements OnInit {
     {link: 'test', label: 'Test'}
   ];
 
+  test() {
+
+  }
 
 }

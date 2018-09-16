@@ -11,11 +11,16 @@ import { AuthenticationService } from '../auth/services/authentication.service';
 })
 export class MainNavComponent {
 
+  isAdmin$: any;
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
     );
     
-  constructor(public authService: AuthenticationService, private breakpointObserver: BreakpointObserver) {}
+  constructor(public authService: AuthenticationService, private breakpointObserver: BreakpointObserver) {
+    this.isAdmin$ = this.authService.isAdmin$;
+
+  }
   
   }

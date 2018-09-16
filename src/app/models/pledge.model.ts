@@ -7,6 +7,6 @@ export class Pledge {
   amountCents: number;
   property_id: string;
   reward: firebase.firestore.DocumentReference;
-  user: firebase.firestore.DocumentReference;
+  user_id: string;
   property: {};
 }

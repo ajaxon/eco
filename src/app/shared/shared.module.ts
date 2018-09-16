@@ -3,15 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PledgeCardComponent} from "../pledges/pledge-card/pledge-card.component";
-import { MatButtonModule, MatCardModule, MatGridListModule, MatProgressBarModule, MatChipsModule } from '../../../node_modules/@angular/material';
+import { MatButtonModule, MatCardModule, MatGridListModule, MatProgressBarModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatInputModule, MatStepperModule, MatCheckboxModule, MatDividerModule, MatIconModule, MatExpansionModule, MatDialogModule } from '../../../node_modules/@angular/material';
 import { PropertiesModule } from '../properties/properties.module';
 import { RouterModule } from '../../../node_modules/@angular/router';
+import { UploadsModule } from '../uploads/uploads.module';
 
 
 @NgModule({
   imports: [
 
     CommonModule,
+    UploadsModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -19,7 +21,18 @@ import { RouterModule } from '../../../node_modules/@angular/router';
     MatGridListModule,
     MatProgressBarModule,
     RouterModule,
-    MatChipsModule
+    MatChipsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    MatStepperModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatDialogModule
+  
 
 
   ],
@@ -27,6 +40,7 @@ import { RouterModule } from '../../../node_modules/@angular/router';
 
   exports: [
     CommonModule,
+    UploadsModule,
     FormsModule,
     ReactiveFormsModule,
     PledgeCardComponent,
@@ -35,7 +49,17 @@ import { RouterModule } from '../../../node_modules/@angular/router';
     MatGridListModule,
     MatProgressBarModule,
     RouterModule,
-    MatChipsModule
+    MatChipsModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatInputModule,
+    MatStepperModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatDialogModule
     
 
 

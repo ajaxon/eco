@@ -11,7 +11,7 @@ export class PledgeCardComponent implements OnInit {
 
   @Input() pledge: Pledge;
 
-  constructor (private _pledgeService : PledgeService) {}
+  constructor (private _pledgeService: PledgeService) {}
 
   ngOnInit() {
   }

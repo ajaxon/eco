@@ -1,0 +1,14 @@
+ Parcel: {{ property.parcelSize }}
+Property Detail
+
+ 
+  {{ property.pledges?.count }}
+  {{ property.location }}
+  {{ property.pledges?.total }}
+  {{ property.priceCents | currency }}
+
+  
+  <button *ngIf="(isAdmin$ | async)" (click)="test()" mat-button>Add Reward</button>
+  <app-reward *ngFor="let reward of rewards | async" [reward]="reward">
+  </app-reward>
+<app-create-pledge></app-create-pledge>

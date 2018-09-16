@@ -1,8 +1,14 @@
+@import 'green-theme.scss';
+
 
 body {
   margin: auto;
 }
 main {
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 10%;
   margin-top:75px;
+
 }

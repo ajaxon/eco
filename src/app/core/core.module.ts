@@ -4,6 +4,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {AuthenticationService} from "../auth/services/authentication.service";
 import {PledgeCardComponent} from "../pledges/pledge-card/pledge-card.component";
 import { SharedModule } from '../shared/shared.module';
+import { FileService } from '../file-service.service';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { SharedModule } from '../shared/shared.module';
     HttpClientModule
   ],
   declarations: [],
-  providers: [AuthenticationService]
+  providers: [AuthenticationService, FileService]
 })
 export class CoreModule { }

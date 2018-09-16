@@ -56,6 +56,15 @@ function isValidPledge(){
        allow create: if isAuthenticated();
        allow update: if request.auth.uid == userId;
     }
+    // Anybody can read pleds
+    // Only pledge owner can update
+    // Create -> pledge is valid && user authenticated
+    // 1. After pledge created -> update pledge count and amount on property
+    // 2. Send email confirmation of pledge to user
+
+    // Pledge Delete -> isOwner -> 
+    // Update pledge count amount on property
+    // 
       match /pledges/{pledgeId} {
       	allow read;
         allow update: if isAuthenticated() && isOwner();
@@ -70,8 +79,7 @@ function isValidPledge(){
       match /{propertyId} {
       	allow read: if resource.data.published || isAdmin();
         allow write: if isAuthenticated() && isAdmin() &&
-        					 isValidProperty();
-				allow delete: if isAuthenticated() && isAdmin();     
+        					 isValidProperty();  
       }
       
       

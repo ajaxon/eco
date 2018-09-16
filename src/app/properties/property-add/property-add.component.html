@@ -1,0 +1,42 @@
+
+<mat-card>
+<mat-card-header>Add new Property</mat-card-header>
+<form fxLayout="column" [formGroup]="addPropertyForm" (ngSubmit)="add()" class="example-container" novalidate>
+    <mat-form-field>  
+    <input matInput formControlName="title" placeholder="Title" required dividerColor="accent">
+</mat-form-field>
+
+      <mat-form-field>
+
+      <input matInput type="text" formControlName="description" placeholder="Description">
+
+      </mat-form-field>
+
+      <mat-form-field>
+      <input matInput type="text" formControlName="city" placeholder="City">
+      </mat-form-field>
+
+
+      <mat-form-field>
+      <input matInput type="number" formControlName="parcelSize" placeholder="Parcel Size">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" formControlName="priceCents" placeholder="Price in Cents">
+      <mat-error>  
+        <span *ngIf="!addPropertyForm.get('priceCents').valid && addPropertyForm.get('priceCents').touched">Please enter Price!!!</span>  
+    </mat-error>  
+    </mat-form-field>
+      
+    <mat-checkbox formControlName="published">
+       Published
+    </mat-checkbox>
+
+      <button mat-flat-button [disabled]="addPropertyForm.pristine" type="submit">Add</button>
+
+      <button mat-flat-button [disabled]="addPropertyForm.pristine" (click)="reset()">Reset</button>
+
+
+    </form>
+
+</mat-card>

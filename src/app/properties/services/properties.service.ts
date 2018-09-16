@@ -11,7 +11,6 @@ import {
 } from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import * as firebase from 'firebase/app';
-import {StorageService} from '../../uploader/storage.service';
 import { Property, Reward } from '../../models/property.model';
 
 @Injectable()
@@ -22,7 +21,7 @@ export class PropertyService {
   properties$: Observable<any[]>;
 
 
-  constructor(private fireStore: AngularFirestore, private storageService: StorageService) {
+  constructor(private fireStore: AngularFirestore) {
     this.propertiesCollectionRef = this.getProperties();
     this.properties$ = this.propertiesCollectionRef.snapshotChanges().map(actions => {
       return actions.map(action => {

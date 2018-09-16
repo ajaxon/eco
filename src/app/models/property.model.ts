@@ -1,5 +1,6 @@
 
 import {firestore} from "firebase";
+import { Address } from "./address.model";
 
 
 export class Property {
@@ -8,15 +9,26 @@ export class Property {
   title: string;
   description: string;
   parcelSize: string;
-  location: any;
-  pledgeCount: number;
+  location?: {
+    state?: string;
+    city?: string;
+    postalCode?: string;
+    geo: firebase.firestore.GeoPoint;
+  };
+  pledges: {
+    count: number;
+    total: number;
+
+  };
   priceCents: number;
   published: boolean;
-  status: string = 'pending';
+  status = 'pending';
   terrains: any;
-  totalPledged: string;
 
+  photos?: string[];
   createdAt: any;
+
+  address: Address;
 
 }
 

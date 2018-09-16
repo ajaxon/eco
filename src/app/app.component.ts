@@ -7,7 +7,7 @@ import {routerTransition} from "./core/animations/router.transition";
   template: `
 
 <main-nav></main-nav>
-    <main>
+    <main >
       <router-outlet>
         <div style="margin:0 auto" *ngIf="loading"></div>
       </router-outlet>

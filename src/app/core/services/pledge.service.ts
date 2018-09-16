@@ -13,6 +13,8 @@ import {Observable} from 'rxjs';
 import * as firebase from 'firebase/app';
 import { Pledge } from '../../models/pledge.model';
 import { Reward, Property } from '../../models/property.model';
+import { AuthenticationService } from '../../auth/services/authentication.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 @Injectable()
@@ -21,30 +23,42 @@ export class PledgeService {
   pledgesCollectionRef: AngularFirestoreCollection<Pledge>;
 
   pledges: Observable<any[]>;
+  userId: string;
 
-
-  constructor(private fireStore: AngularFirestore) {
+  constructor(private afAuth: AngularFireAuth, private fireStore: AngularFirestore, private auth: AuthenticationService) {
     this.pledgesCollectionRef = this.fireStore.collection<Pledge>('pledges');
 
+
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+    }});
 
   }
 
   /*
   Get all pledges made by user currently logged in
    */
-  getUserPledges() {
+  getUserPledges(): Observable<Pledge[]> {
 
-    const user = firebase.auth().currentUser;
-    
-    const userRef = this.fireStore.collection('users').doc(user.uid).ref;
-    console.log("User pledges for : " , user.uid);
-    return this.fireStore.collection<Pledge>('pledges', ref => ref.where('user', '==', userRef)).snapshotChanges().map(actions => {
-      return actions.map(action => {
-        const data = action.payload.doc.data() as Pledge;
-        const id = action.payload.doc.id;
-        return { id, ...data};
+    return this.afAuth.authState.flatMap(user => {
+      if (user) {
+        return this.fireStore.collection<Pledge>('pledges', ref => ref.where('user_id', '==', user.uid))
+        .snapshotChanges().map(actions => {
+         return actions.map(action => {
+          const data = action.payload.doc.data() as Pledge;
+          const id = action.payload.doc.id;
+          return { id, ...data};
+        });
       });
-    })
+
+
+
+    } else {
+      return;
+    }});
+
+
   }
 
   /*
@@ -70,7 +84,7 @@ export class PledgeService {
     this.pledgesCollectionRef.doc(pledge.id).delete();
   }
 
-  getRewards(property: Property) {
+  getRewards(property: Property): Observable<Reward[]> {
     return this.fireStore.collection<Reward>('properties').doc(property.id).collection('rewards').snapshotChanges().map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Reward;
