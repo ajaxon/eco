@@ -19,12 +19,16 @@ export class PropertyCardComponent implements OnInit {
   pledgeForm = false;
   showMap = false;
   isAdmin$: any;
+  pledges$: any;
   images = [];
 
   @Input() property: Property;
 
   ngOnInit(): void {
     console.log(this.property);
+
+    this.pledges$ = this.pledgeService.getAllPledgesToProperty(this.property);
+
     for(let path of this.property.photos){
       this._fileService.getFile(path).subscribe((url)=>{
         this.images.push(url);
@@ -34,10 +38,9 @@ export class PropertyCardComponent implements OnInit {
     //throw new Error("Method not implemented.");
   }
 
-  constructor(public dialog: MatDialog, private _fileService: FileService , private _authService: AuthenticationService, private _propertyService: PropertyService, private _pledgeService: PledgeService){
+  constructor(public dialog: MatDialog, private _fileService: FileService , private pledgeService: PledgeService, private _authService: AuthenticationService, private _propertyService: PropertyService, private _pledgeService: PledgeService){
     this.isAdmin$ = this._authService.isAdmin$;
-   
-     
+
     
   }
   show() {

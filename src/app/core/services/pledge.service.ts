@@ -43,7 +43,7 @@ export class PledgeService {
 
     return this.afAuth.authState.flatMap(user => {
       if (user) {
-        return this.fireStore.collection<Pledge>('pledges', ref => ref.where('user_id', '==', user.uid))
+        return this.fireStore.collectionGroup<Pledge>('pledges', ref => ref.where('user_id', '==', user.uid))
         .snapshotChanges().map(actions => {
          return actions.map(action => {
           const data = action.payload.doc.data() as Pledge;
@@ -79,6 +79,10 @@ export class PledgeService {
   }
 
 
+  getAllPledgesToProperty(property: Property) {
+    console.log("Property : ", property);
+    return this.fireStore.collection('properties').doc(property.id).collection('pledges').valueChanges();
+  }
 
   deletePledge(pledge: Pledge) {
     this.pledgesCollectionRef.doc(pledge.id).delete();

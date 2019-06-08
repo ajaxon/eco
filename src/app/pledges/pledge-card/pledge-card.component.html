@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-title-group>
       <img mat-card-md-image>
-    <mat-card-title>title</mat-card-title>
+    <mat-card-title>{{title}}</mat-card-title>
     {{pledge?.amountCents / 100 | currency}}
 
 <mat-card-subtitle>sub title</mat-card-subtitle>
@@ -10,6 +10,7 @@
   </mat-card-title-group>
 
 
+  <!-- Get property thumbnail for property id -->
   <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
   <mat-card-content>
 
@@ -17,9 +18,6 @@
 
     {{pledge.property_id}}
     <li>Pledged on: new Date({{pledge.createdOn}})</li>
-
-
-
   </mat-card-content>
 
   <mat-card-actions>

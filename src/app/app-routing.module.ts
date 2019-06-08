@@ -11,7 +11,8 @@ const routes: Routes = [
   {path: 'properties/add', component: PropertyAddComponent},
   {path: 'properties/:id', component: PropertyDetailComponent},
   {path: 'user', component: UserPledgesComponent},
-  {path: 'auth', loadChildren: 'app/auth/auth.module#AuthModule' },
+  {path: 'login', loadChildren: 'app/auth/auth.module#AuthModule' },
+
   {path: 'account', loadChildren: 'app/user-panel/user-panel.module#UserPanelModule'}
 
 ];

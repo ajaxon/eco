@@ -17,6 +17,7 @@ export interface DialogData {
 export class CreatePledgeComponent implements AfterViewInit, OnInit {
 
   @ViewChild('cardInfo') cardInfo: ElementRef;
+  
   pledgeForm: FormGroup;
   billingForm: FormGroup;
   error: string;

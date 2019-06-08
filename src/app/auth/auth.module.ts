@@ -4,15 +4,16 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthenticationService } from './services/authentication.service';
 import {AuthenticationComponent} from "./authentication.component";
-import {LoginSignupComponent} from "./loginSignup/login-signup.component";
 import {SharedModule} from "../shared/shared.module";
+import {LoginComponent} from "./loginSignup/login.component";
 
 @NgModule({
   imports: [
+    CommonModule,
     SharedModule,
     AuthRoutingModule
   ],
-  declarations: [AuthenticationComponent, LoginSignupComponent],
+  declarations: [AuthenticationComponent, LoginComponent],
   providers: [AuthenticationService]
 })
 export class AuthModule { }

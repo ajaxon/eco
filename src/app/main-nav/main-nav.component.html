@@ -24,7 +24,7 @@
 
         <button mat-flat-button *ngIf="(authService.user | async)" class="nav-item" routerLink="/user">My Pledges</button>
         <button mat-flat-button *ngIf="(isAdmin$| async)" routerLink="/properties/add">Add Property</button>
-        <button mat-flat-button *ngIf="!(authService.user | async)" routerLink="/auth">Login</button>
+        <button mat-flat-button *ngIf="!(authService.user | async)" routerLink="/login">Login</button>
         <span>
           <button mat-flat-button routerLink="/">Properties</button>
         </span>

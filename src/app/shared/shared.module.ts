@@ -32,8 +32,6 @@ import { UploadsModule } from '../uploads/uploads.module';
     MatIconModule,
     MatExpansionModule,
     MatDialogModule
-  
-
 
   ],
   declarations: [PledgeCardComponent],
@@ -60,9 +58,6 @@ import { UploadsModule } from '../uploads/uploads.module';
     MatIconModule,
     MatExpansionModule,
     MatDialogModule
-    
-
-
   ]
 })
 export class SharedModule { }

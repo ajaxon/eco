@@ -1,7 +1,16 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const stripe = require('stripe')(functions.config().stripe.key);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -67,9 +76,9 @@ exports.deletePledge = functions.firestore
         return transaction.get(property).then(restDoc => {
             // Compute new number of ratings
             const pledgeCount = restDoc.get('pledges.count') - 1;
-            // Compute new average rating
+            // Compute new  total pledge amount
             const pledgeTotal = restDoc.get('pledges.total') - deletedPledge.amountCents;
-            // Update restaurant info
+            // Update property pledge details info
             return transaction.update(property, {
                 "pledges": {
                     count: pledgeCount,
@@ -129,4 +138,13 @@ exports.setAdmin = functions.https.onRequest((req, res) => {
         console.log(error);
     });
 });
+// When user is created -> register them with Stripe
+exports.createStripeCustomer = functions.auth.user()
+    .onCreate((user) => __awaiter(this, void 0, void 0, function* () {
+    const customer = yield stripe.customers.create({ email: user.email });
+    return admin.firestore()
+        .collection('stripe_customers')
+        .doc(user.uid)
+        .set({ customer_id: customer.id });
+}));
 //# sourceMappingURL=index.js.map

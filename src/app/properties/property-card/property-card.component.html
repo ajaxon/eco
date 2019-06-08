@@ -64,7 +64,7 @@
 -->
 
 <mat-card class="mat-card">
-  <!----><img _ngcontent-c23="" class="imgCard mat-card-image ng-star-inserted" mat-card-image="" src="https://firebasestorage.googleapis.com/v0/b/vaquinha-a55b7.appspot.com/o/user%2FgQxLUQQKd8YrWJDmX8datlWrvOn1%2F1530813137648.jpg?alt=media&amp;token=343422a1-30fb-4543-aba0-1eee925d636e"
+  <!----><img _ngcontent-c23="" class="imgCard mat-card-image ng-star-inserted" mat-card-image="" src={{images[0]}}
     alt="Parque Ludico y Cultural - CreSiendo">
   <!---->
   <div _ngcontent-c23="" fxlayoutalign="space-between" style="margin-bottom: 20px; place-content: stretch space-between; align-items: stretch; flex-direction: row; box-sizing: border-box; display: flex;">
@@ -123,6 +123,8 @@
       <agm-marker [latitude]="property.location?.geo?.latitude" [longitude]="property.location?.geo?.longitude"></agm-marker>
     </agm-map>
 
+
+  {{pledges$ | async}}
   <mat-card-footer style="padding-top: 5%;">
     <div fxlayoutalign="center center" style="place-content: center; align-items: center; flex-direction: row; box-sizing: border-box; display: flex;">
       <!----><button (click)="showPledgeForm()" color="primary" mat-raised-button style="width: 100%;" class="mat-raised-button mat-primary ng-star-inserted"><span>PLEDGE</span>

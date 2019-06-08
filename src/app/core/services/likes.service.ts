@@ -42,11 +42,16 @@ export class LikeService {
       return;
     }
 
-    const userRef = this.fireStore.collection('likes').doc(user.uid).ref;
+    //const userRef = this.fireStore.collection('likes').doc(user.uid).ref;
     console.log('User pledges for : ' , user.uid);
-    return this.fireStore.collection<Like>('likes', ref => ref.where('user', '==', userRef)).valueChanges();
+    return this.fireStore.collectionGroup<Like>('likes', ref => ref.where('user_id', '==', user.uid)).valueChanges();
   }
 
+
+
+  getPropertyLikes() {
+    return this.fireStore.collection('properties/likes').valueChanges();
+  }
   /*
   Get all pledges for a given reward
    */

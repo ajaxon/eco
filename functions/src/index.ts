@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+const stripe = require('stripe')(functions.config().stripe.key);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -79,10 +80,10 @@ exports.deletePledge = functions.firestore
         // Compute new number of ratings
         const pledgeCount = restDoc.get('pledges.count') - 1;
 
-        // Compute new average rating
+        // Compute new  total pledge amount
         const pledgeTotal = restDoc.get('pledges.total') - deletedPledge.amountCents;
 
-        // Update restaurant info
+        // Update property pledge details info
         return transaction.update(property, {
             "pledges": {
                 count: pledgeCount,
@@ -147,4 +148,17 @@ exports.setAdmin = functions.https.onRequest((req, res) => {
         console.log(error);
     });
 });
+
+
+// When user is created -> register them with Stripe
+exports.createStripeCustomer = functions.auth.user()
+  .onCreate(async (user) => {
+    const customer = await stripe.customers.create({email:user.email});
+
+    return admin.firestore()
+      .collection('stripe_customers')
+      .doc(user.uid)
+      .set({customer_id: customer.id});
+
+  });
 
