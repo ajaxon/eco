@@ -77,7 +77,7 @@ function isValidPledge(){
       match /{path=**}/pledges/{id} {
             allow read, write;
           }
-          
+
       match /properties {
                    
                              
